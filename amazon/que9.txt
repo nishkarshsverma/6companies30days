@@ -1,0 +1,73 @@
+// { Driver Code Starts
+// Initial Template for C++
+
+#include <bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+// User function Template for C++
+
+class Solution{
+public:
+    int isValid(vector<vector<int>> mat){
+        // code here
+        for(int i=0;i<9;i++){
+            int vis[10]={0};
+            for(int j=0;j<9;j++){
+                if(mat[i][j]!=0&&vis[mat[i][j]]>0){
+                    return 0;
+                }
+                else{
+                    vis[mat[i][j]]++;
+                }
+            }
+        }
+        for(int i=0;i<9;i++){
+            int vis[10]={0};
+            for(int j=0;j<9;j++){
+                if(mat[j][i]!=0&&vis[mat[j][i]]>0){
+                    return 0;
+                }
+                else{
+                    vis[mat[j][i]]++;
+                }
+            }
+        }
+        
+        int dx[8]={-1,-1,0,1,-1,0,1,1},dy[8]={-1,0,-1,-1,1,1,0,1};
+        
+        for(int i=1;i<9;i+=3){
+            for(int j=1;j<9;j+=3){
+                int vis[10]={0};
+                vis[mat[i][j]]++;
+                for(int k=0;k<8;k++){
+                     if(mat[i+dx[k]][j+dy[k]]!=0&&vis[mat[i+dx[k]][j+dy[k]]]>0){
+                    return 0;
+                }
+                else{
+                    vis[mat[i+dx[k]][j+dy[k]]]++;
+                }
+                }
+            }
+        }
+        return 1;
+        
+        
+    }
+};
+
+// { Driver Code Starts.
+
+int main(){
+    int t;
+    cin>>t;
+    while(t--){
+        vector<vector<int>> mat(9, vector<int>(9, 0));
+        for(int i = 0;i < 81;i++)
+            cin>>mat[i/9][i%9];
+        
+        Solution ob;
+        cout<<ob.isValid(mat)<<"\n";
+    }
+    return 0;
+}  // } Driver Code Ends

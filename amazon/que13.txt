@@ -1,0 +1,47 @@
+class Solution {
+public:
+    int orangesRotting(vector<vector<int>>& matrix) {
+        int c=0;
+    int n=matrix.size();
+    if(n==0)return 0;
+    int m=matrix[0].size();
+    
+    vector<vector<int>>vis(n,vector<int>(m,0));
+
+    queue<pair<int,pair<int,int>>>q;
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+            if(matrix[i][j]==2){
+                q.push({0,{i,j}});
+
+            }
+            else if(matrix[i][j]==1)
+            c++;
+        }
+    }
+    int day=0;
+    vector<pair<int,int>>dir={{0,1},{1,0},{0,-1},{-1,0}};
+    while(!q.empty()){
+        pair<int,pair<int,int>>p=q.front();
+        q.pop();
+        int d=p.first;
+        int x=p.second.first;
+        int y=p.second.second;
+        day=d;
+        for(int i=0;i<4;i++){
+            int x1=x+dir[i].first;
+            int y1=y+dir[i].second;
+
+            if(x1>=0&&y1>=0&&x1<n&&y1<m&&matrix[x1][y1]==1&&vis[x1][y1]==0){
+                c--;
+                q.push({d+1,{x1,y1}});
+                vis[x1][y1]=1;
+            }
+        }
+
+    }
+    if(c!=0)
+    return -1;
+    else return day;
+    }
+};
