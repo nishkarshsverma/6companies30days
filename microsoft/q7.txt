@@ -1,0 +1,72 @@
+// { Driver Code Starts
+#include<bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+class Solution
+{
+    public:
+    //Function to find unit area of the largest region of 1s.
+    vector<pair<int,int>> dir={{0,1},{1,0},{0,-1},{-1,0},{-1,-1},{-1,1},{1,-1},{1,1}};
+
+int fn(vector<vector<int>>& matrix,vector<vector<int>>& vis,int x,int y){
+    
+    int count=0;
+    vis[x][y]=1;
+    
+    for(int i=0;i<8;i++){
+        if(x+dir[i].first>=0&&y+dir[i].second>=0&&x+dir[i].first<matrix.size()&&y+dir[i].second<matrix[0].size()){
+            
+        if(matrix[x+dir[i].first][y+dir[i].second]==1&&vis[x+dir[i].first][y+dir[i].second]==0){
+            count+=fn(matrix,vis,x+dir[i].first,y+dir[i].second);
+        }}
+    }
+    
+    return count+1;
+
+}
+    int findMaxArea(vector<vector<int>>& matrix) {
+        // Code here
+        int n=matrix.size();
+    int m=matrix[0].size();
+
+    
+    // cout<<n<<m<<endl;
+
+    vector<vector<int>>vis(n,vector<int>(m,0));
+    int mx=0;
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+            if(matrix[i][j]==1&&vis[i][j]==0){
+                
+                int l=fn(matrix,vis,i,j);
+                
+                mx=max(mx,l);
+                
+                
+            }
+        }
+    }
+    return mx;
+    }
+};
+
+// { Driver Code Starts.
+int main(){
+	int tc;
+	cin >> tc;
+	while(tc--){
+		int n, m;
+		cin >> n >> m;
+		vector<vector<int>>grid(n, vector<int>(m, -1));
+		for(int i = 0; i < n; i++){
+			for(int j = 0; j < m; j++){
+				cin >> grid[i][j];
+			}
+		}
+		Solution obj;
+		int ans = obj.findMaxArea(grid);
+		cout << ans << "\n";
+	}
+	return 0;
+}  // } Driver Code Ends
